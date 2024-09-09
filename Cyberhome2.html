@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security Platform</title>
+    <link rel="stylesheet" href="Csshome.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="">Cyber Security Platform</h1>
+            <nav>
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section id="hero" class="hero-section">
+        <div class="container hero-content">
+            <h2>Your Cyber Security Solution</h2>
+            <p>Explore our tools and guidelines to keep your online presence secure.</p>
+            <button onclick="scrollToSection('services')">Get Started</button>
+        </div>
+    </section>
+    <main>
+        <section id="services" class="container services-section">
+            <div class="service-box">
+                <h2>Password Checker</h2>
+                <input type="password" id="password" placeholder="Enter password">
+                <button onclick="checkPassword()">Check Password</button>
+                <p id="password-strength"></p>
+                <progress id="password-strength-bar" value="0" max="100"></progress>
+            </div>
+
+            <div class="service-box">
+                <h2>Passage Locker</h2>
+                <textarea id="passage" placeholder="Enter your passage here..."></textarea>
+                <button onclick="lockPassage()">Lock Passage</button>
+                <button onclick="unlockPassage()">Unlock Passage</button>
+                <textarea id="result" placeholder="Result will be displayed here..."></textarea>
+            </div>
+
+            <div class="service-box">
+                <h2>Website Scanner</h2>
+                <input type="text" id="url" placeholder="Enter website URL">
+                <button onclick="scanWebsite()">Scan Website</button>
+                <p id="scan-result">Scan results will be displayed here...</p>
+            </div>
+        </section>
+
+        <section id="about" class="container about-section">
+            <h2>About Us</h2>
+            <p>Learn more about our mission to protect your digital assets with cutting-edge tools and expert guidelines.</p>
+        </section>
+
+        <section id="contact" class="container contact-section">
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+    <footer class="container">
+        <p>&copy; 2024 Cyber Security Platform</p>
+    </footer>
+
+    <!-- Chatbot Script -->
+    <script>
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/YOUR_TAWKTO_ID/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+
+        // Smooth Scroll
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Password Checker with Advanced Features
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            let strength = 0;
+            const feedback = [];
+
+            if (password.length >= 8) strength += 25;
+            else feedback.push("Password should be at least 8 characters long.");
+
+            if (/[A-Z]/.test(password)) strength += 25;
+            else feedback.push("Password should contain at least one uppercase letter.");
+
+            if (/[0-9]/.test(password)) strength += 25;
+            else feedback.push("Password should contain at least one digit.");
+
+            if (/[@$!%*?&#]/.test(password)) strength += 25;
+            else feedback.push("Password should contain at least one special character.");
+
+            document.getElementById('password-strength').innerText = `Password Strength: ${strength}%`;
+            document.getElementById('password-strength-bar').value = strength;
+
+            if (strength < 100) {
+                document.getElementById('password-strength').innerText += `\n${feedback.join('\n')}`;
+            }
+        }
+
+        // Passage Locker with Enhanced Encryption
+        function simpleEncrypt(text, key) {
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                result += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return result;
+        }
+
+        const ENCRYPTION_KEY = 'complexKey123!'; // Advanced key for encryption
+
+        function lockPassage() {
+            const passage = document.getElementById('passage').value;
+            const encrypted = simpleEncrypt(passage, ENCRYPTION_KEY);
+            document.getElementById('result').value = encrypted;
+        }
+
+        function unlockPassage() {
+            const encrypted = document.getElementById('result').value;
+            const decrypted = simpleEncrypt(encrypted, ENCRYPTION_KEY);
+            document.getElementById('result').value = decrypted;
+        }
+
+        // Advanced Website Scanner
+        async function scanWebsite() {
+            const url = document.getElementById('url').value;
+            document.getElementById('scan-result').innerText = 'Scanning...';
+
+            try {
+                const response = await fetch(`https://api.example.com/scan?url=${encodeURIComponent(url)}`);
+                const result = await response.json();
+                document.getElementById('scan-result').innerText = result.message;
+            } catch (error) {
+                document.getElementById('scan-result').innerText = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
